@@ -101,6 +101,13 @@ async function initialSetup(db: DBServiceType) {
     });
   }
 
+  if (WG_INITIAL_ENV.DEVICE) {
+    DB_DEBUG('Setting initial device...');
+    await db.interfaces.update({
+      device: WG_INITIAL_ENV.DEVICE,
+    });
+  }
+
   if (
     WG_INITIAL_ENV.USERNAME &&
     WG_INITIAL_ENV.PASSWORD &&

@@ -14,10 +14,11 @@ When refactoring, writing or altering files, adhere to these rules:
 
 Make sure to select `edge` in the dropdown menu at the top. Navigate to the page you would like to edit and click the edit button in the top right. This allows you to make changes and create a pull-request.
 
-Alternatively you can make the changes locally. For that you'll need to have Docker installed. Run
+Alternatively you can make the changes locally. Install the documentation dependencies and run:
 
 ```sh
-pnpm docs:serve
+pip install -r docs/requirements.txt
+pnpm docs:preview
 ```
 
 This serves the documentation on your local machine on port `8080`. Each change will be hot-reloaded onto the page you view, just edit, save and look at the result.

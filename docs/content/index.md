@@ -8,12 +8,11 @@ hide:
 
 /// info | This Documentation is Versioned
 
-**Make sure** to select the correct version of this documentation! It should match the version of the image you are using. The default version corresponds to [the most recent stable release][docs-tagging].
+**Make sure** to select the correct version of this documentation! It should match the version you are running. The default version corresponds to the most recent stable release.
 ///
 
 This documentation provides you not only with the basic setup and configuration of `wg-easy` but also with advanced configuration, elaborate usage scenarios, detailed examples, hints and more.
 
-[docs-tagging]: ./getting-started.md#tagging-convention
 
 ## About
 
@@ -23,10 +22,10 @@ This documentation provides you not only with the basic setup and configuration 
 
 ### Getting Started
 
-If you're new to wg-easy, make sure to read the [_Getting Started_ chapter][docs-getting-started] first. If you want to look at examples for Docker Run and Compose, we have an [_Examples_ page][docs-examples].
+If you're new to wg-easy, make sure to read the [_Getting Started_ chapter][docs-getting-started] first. For a full Ubuntu 24.04 install walkthrough, see the [_No Docker_ guide][docs-no-docker].
 
 [docs-getting-started]: ./getting-started.md
-[docs-examples]: ./examples/tutorials/basic-installation.md
+[docs-no-docker]: ./examples/tutorials/dockerless.md
 
 ### Contributing
 

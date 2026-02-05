@@ -1,125 +1,90 @@
-# WireGuard Easy
+# wg-easy (Ubuntu 24.04, no Docker)
 
-[![Build & Publish latest Image](https://github.com/wg-easy/wg-easy/actions/workflows/deploy.yml/badge.svg?branch=production)](https://github.com/wg-easy/wg-easy/actions/workflows/deploy.yml)
-[![Lint](https://github.com/wg-easy/wg-easy/actions/workflows/lint.yml/badge.svg?branch=master)](https://github.com/wg-easy/wg-easy/actions/workflows/lint.yml)
-[![GitHub Stars](https://img.shields.io/github/stars/wg-easy/wg-easy)](https://github.com/wg-easy/wg-easy/stargazers)
-[![License](https://img.shields.io/github/license/wg-easy/wg-easy)](LICENSE)
-[![GitHub Release](https://img.shields.io/github/v/release/wg-easy/wg-easy)](https://github.com/wg-easy/wg-easy/releases/latest)
-[![Image Pulls](https://img.shields.io/badge/image_pulls-12M+-blue)](https://github.com/wg-easy/wg-easy/pkgs/container/wg-easy)
+This repository runs `wg-easy` directly on Ubuntu 24.04 using systemd. Docker support has been removed.
 
-You have found the easiest way to install & manage WireGuard on any Linux host!
+## Requirements
 
-<!-- TOOD: update screenshot -->
+- Ubuntu 24.04 (x86_64 or arm64)
+- Root access
+- Public IP or domain name
 
-<p align="center">
-  <img src="./assets/screenshot.png" width="802" alt="wg-easy Screenshot" />
-</p>
-
-## Features
-
-- All-in-one: WireGuard + Web UI.
-- Easy installation, simple to use.
-- List, create, edit, delete, enable & disable clients.
-- Show a client's QR code.
-- Download a client's configuration file.
-- Statistics for which clients are connected.
-- Tx/Rx charts for each connected client.
-- Gravatar support.
-- Automatic Light / Dark Mode
-- Multilanguage Support
-- One Time Links
-- Client Expiration
-- Prometheus metrics support
-- IPv6 support
-- CIDR support
-- 2FA support
-
-> [!NOTE]
-> To better manage documentation for this project, it has its own site here: [https://wg-easy.github.io/wg-easy/latest](https://wg-easy.github.io/wg-easy/latest)
-
-- [Getting Started](https://wg-easy.github.io/wg-easy/latest/getting-started/)
-- [Basic Installation](https://wg-easy.github.io/wg-easy/latest/examples/tutorials/basic-installation/)
-- [Caddy](https://wg-easy.github.io/wg-easy/latest/examples/tutorials/caddy/)
-- [Traefik](https://wg-easy.github.io/wg-easy/latest/examples/tutorials/traefik/)
-- [Podman](https://wg-easy.github.io/wg-easy/latest/examples/tutorials/podman-nft/)
-- [AdGuard Home](https://wg-easy.github.io/wg-easy/latest/examples/tutorials/adguard/)
-
-> [!NOTE]
-> If you want to migrate from the old version to the new version, you can find the migration guide here: [Migration Guide](https://wg-easy.github.io/wg-easy/latest/advanced/migrate/)
-
-## Installation
-
-This is a quick start guide to get you up and running with WireGuard Easy.
-
-For a more detailed installation guide, please refer to the [Getting Started](https://wg-easy.github.io/wg-easy/latest/getting-started/) page.
-
-### 1. Install Docker
-
-If you haven't installed Docker yet, install it by running as root:
+## Install
 
 ```shell
-curl -sSL https://get.docker.com | sh
-exit
+sudo bash scripts/install-ubuntu-24.04.sh
 ```
 
-And log in again.
+The installer builds the app, deploys it to `/opt/wg-easy`, and creates the `wg-easy` systemd service.
 
-### 2. Run WireGuard Easy
+## Configure
 
-The easiest way to run WireGuard Easy is with Docker Compose.
-
-Just follow [these steps](https://wg-easy.github.io/wg-easy/latest/examples/tutorials/basic-installation/) in the detailed documentation.
-
-You can also install WireGuard Easy with the [docker run command](https://wg-easy.github.io/wg-easy/latest/examples/tutorials/docker-run/) or via [podman](https://wg-easy.github.io/wg-easy/latest/examples/tutorials/podman-nft/).
-
-Now [setup a reverse proxy](https://wg-easy.github.io/wg-easy/latest/examples/tutorials/basic-installation/#setup-reverse-proxy) to be able to access the Web UI securely from the internet. This step is optional, just make sure to follow the guide [here](https://wg-easy.github.io/wg-easy/latest/examples/tutorials/reverse-proxyless/) if you decide not to do it.
-
-## Donate
-
-Are you enjoying this project? Consider donating.
-
-Founder: [Buy Emile a beer!](https://github.com/sponsors/WeeJeWel) 🍻
-
-Maintainer: [Buy kaaax0815 a coffee!](https://github.com/sponsors/kaaax0815) ☕
-
-## Development
-
-### Prerequisites
-
-- Docker
-- Node LTS & corepack enabled
-- Visual Studio Code
-
-### Dev Server
-
-This starts the development server with docker
+Edit `/etc/wg-easy/wg-easy.env` and restart:
 
 ```shell
-pnpm dev
+sudo systemctl restart wg-easy
 ```
 
-### Update Auto Imports
+Data is stored in `/etc/wireguard` (including `wg-easy.db`).
 
-If you add something that should be auto-importable and VSCode complains, run:
+Key settings:
+
+- `INSECURE=true` if you access the UI over plain HTTP
+- `PORT` to change the UI port (default `51821`)
+- `NITRO_HOST` to change the UI bind address (default `0.0.0.0`)
+- `INIT_ENABLED=true` with `INIT_*` to pre-seed initial setup values
+- `INIT_DEVICE` to set the default uplink interface (e.g. `ens3`)
+- `INIT_HOST` / `INIT_PORT` to set the public WireGuard endpoint stored in configs
+- `DISABLE_IPV6=true` to disable IPv6
+
+Notes:
+
+- The Web UI listens on `PORT`.
+- WireGuard listens on `INIT_PORT`.
+
+## Start / Stop
 
 ```shell
-cd src
-pnpm install
-cd ..
+sudo systemctl status wg-easy
+sudo systemctl restart wg-easy
+sudo systemctl stop wg-easy
 ```
 
-### Test Cli
+## Firewall
 
-This starts the cli with docker
+Allow:
+
+- UDP `51820` (WireGuard)
+- TCP `51821` (Web UI)
+
+## Upgrade
+
+Re-run the installer and restart:
 
 ```shell
-pnpm cli:dev
+sudo bash scripts/install-ubuntu-24.04.sh
+sudo systemctl restart wg-easy
 ```
 
-## License
+## Backup / Restore
 
-This project is licensed under the AGPL-3.0-only License - see the [LICENSE](LICENSE) file for details
+- Use the Web UI backup to download `wg0.json`.
+- The database lives at `/etc/wireguard/wg-easy.db`.
 
-This project is not affiliated, associated, authorized, endorsed by, or in any way officially connected with Jason A. Donenfeld, ZX2C4 or Edge Security
+## CLI
 
-"WireGuard" and the "WireGuard" logo are registered trademarks of Jason A. Donenfeld
+Run:
+
+```shell
+sudo wg-easy-cli
+```
+
+## Uninstall
+
+```shell
+sudo systemctl disable --now wg-easy
+sudo rm -f /etc/systemd/system/wg-easy.service
+sudo systemctl daemon-reload
+sudo rm -rf /opt/wg-easy /etc/wg-easy
+```
+
+If you want to remove all data, also delete `/etc/wireguard`.

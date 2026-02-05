@@ -29,7 +29,7 @@ update_version $new_version
 echo "Updated package.json to version $new_version"
 
 echo "----"
-echo "If you changed the major version, remember to update the docker-compose.yml file and docs (search for: ref: major version)"
+echo "If you changed the major version, remember to update the docs (search for: ref: major version)"
 echo "Make sure to stage any changes before proceeding (e.g. Changelog updates)."
 echo "----"
 
