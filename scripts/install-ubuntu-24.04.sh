@@ -142,12 +142,12 @@ exec /usr/bin/env node /opt/wg-easy/server/cli.mjs "$@"
 CLI
 chmod +x /usr/local/bin/wg-easy-cli
 
-log "Enabling and starting wg-easy..."
+log "Enabling wg-easy..."
 systemctl daemon-reload
-systemctl enable --now wg-easy
+systemctl enable wg-easy
 
 log "Done."
 echo "- Web UI: http://<server-ip>:51821"
-echo "- Edit ${WG_EASY_ENV_FILE} for configuration and restart: systemctl restart wg-easy"
+echo "- Edit ${WG_EASY_ENV_FILE} for configuration and start: systemctl start wg-easy"
 echo "- If you are not using HTTPS, keep INSECURE=true"
 echo "- Ensure your firewall allows UDP 51820 (WireGuard) and TCP 51821 (UI)"

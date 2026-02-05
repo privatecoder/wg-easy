@@ -15,13 +15,14 @@ sudo bash scripts/install-ubuntu-24.04.sh
 ```
 
 The installer builds the app, deploys it to `/opt/wg-easy`, and creates the `wg-easy` systemd service.
+The service is enabled but not started automatically, so you can set `INIT_*` before the first start.
 
 ## Configure
 
-Edit `/etc/wg-easy/wg-easy.env` and restart:
+Edit `/etc/wg-easy/wg-easy.env` and start:
 
 ```shell
-sudo systemctl restart wg-easy
+sudo systemctl start wg-easy
 ```
 
 Data is stored in `/etc/wireguard` (including `wg-easy.db`).
