@@ -28,18 +28,19 @@ Data is stored in `/etc/wireguard` (including `wg-easy.db`).
 
 Key settings:
 
-- `INSECURE=true` if you access the UI over plain HTTP
-- `PORT` to change the UI port (default `51821`)
-- `NITRO_HOST` to change the UI bind address (default `0.0.0.0`)
-- `INIT_ENABLED=true` with `INIT_*` to pre-seed initial setup values
-- `INIT_DEVICE` to set the default uplink interface (e.g. `ens3`)
-- `INIT_HOST` / `INIT_PORT` to set the public WireGuard endpoint stored in configs
-- `DISABLE_IPV6=true` to disable IPv6
+- `PORT`: Required by wg-easy (`WG_ENV.PORT`) and also picked up by Nitro for the UI port.
+- `NITRO_HOST`: Sets the UI bind address (e.g., `0.0.0.0` or `127.0.0.1`).
+- `INSECURE`: Controls HTTP/HTTPS assumptions and cookie security in the app.
+- `INIT_ENABLED`: If `true`, the app will apply the `INIT_*` values on first setup.
+- `INIT_DEVICE`: Sets the default uplink interface in the initial config (e.g., `ens3`).
+- `INIT_USERNAME`, `INIT_PASSWORD`, `INIT_HOST`, `INIT_PORT`: Only when `INIT_ENABLED=true`, and only on the first setup run.
+- `DISABLE_IPV6`: Disables IPv6 and updates hooks accordingly.
 
 Notes:
 
 - The Web UI listens on `PORT`.
 - WireGuard listens on `INIT_PORT`.
+- `INIT_*` values are applied only once (first setup).
 
 ## Start / Stop
 

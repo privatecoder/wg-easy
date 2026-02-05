@@ -101,7 +101,6 @@ install -d -m 700 "${WG_EASY_ENV_DIR}"
 if [[ ! -f "${WG_EASY_ENV_FILE}" ]]; then
   cat > "${WG_EASY_ENV_FILE}" <<ENV
 PORT=51821
-HOST=0.0.0.0
 NITRO_HOST=0.0.0.0
 INSECURE=true
 INIT_ENABLED=false
