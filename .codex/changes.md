@@ -73,4 +73,11 @@ Likely conflict areas:
 - Creates systemd service: /etc/systemd/system/wg-easy.service
 - Writes env file: /etc/wg-easy/wg-easy.env
 - Enables forwarding via /etc/sysctl.d/99-wg-easy.conf
+ - Service is enabled but not auto-started (user starts after setting INIT_*)
+ - Env template no longer includes HOST (legacy)
 
+## Other notable changes
+
+- Root package.json scripts now run local dev/cli without Docker and set PORT/INSECURE defaults.
+- README expanded with config key semantics, ops sections (upgrade, backup, CLI, uninstall).
+- Docs refreshed for Ubuntu 24.04 (no Docker), including migration, CLI, and local docs preview guidance.
